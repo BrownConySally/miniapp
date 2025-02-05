@@ -17,6 +17,11 @@
       .home__title {
         font-size: 2.5rem;
         line-height: 1.15;
+        margin-bottom: 1rem;
+      }
+      .user-id {
+        font-size: 1rem;
+        color: #555;
         margin-bottom: 1.5rem;
       }
       .form-container {
@@ -78,10 +83,22 @@
           .then(() => {
             // LIFF initialization succeeded
             console.log('LIFF initialized');
+            getUserProfile();
           })
           .catch((err) => {
             // LIFF initialization failed
             console.error('LIFF initialization failed', err);
+          });
+      }
+
+      function getUserProfile() {
+        liff.getProfile()
+          .then(profile => {
+            const userId = profile.userId;
+            document.getElementById('userId').textContent = `ユーザーID: ${userId}`;
+          })
+          .catch((err) => {
+            console.error('プロフィール情報の取得に失敗しました', err);
           });
       }
 
@@ -114,7 +131,7 @@
       document.addEventListener('DOMContentLoaded', function () {
         const myLiffId = '2006849822-4Yz8D77B'; // ここにあなたのLIFF IDを入力してください
         initializeLiff(myLiffId);
-        
+
         document.querySelector('form').addEventListener('submit', function (event) {
           event.preventDefault();
           sendMessage();
@@ -127,6 +144,7 @@
       <h1 class="home__title">
         会員登録
       </h1>
+      <div id="userId" class="user-id">ユーザーIDを取得中...</div>
       <div class="form-container">
         <form>
           <div class="form-field">
